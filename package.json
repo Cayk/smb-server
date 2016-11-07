@@ -1,0 +1,18 @@
+{
+  "name": "smb-server",
+  "version": "1.0.0",
+  "description": "Servidor da aplicação SMB.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Cayk Lima",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "mongodb": "^2.2.11",
+    "mongoose": "^4.6.5",
+    "mqtt": "^2.0.1"
+  }
+}
