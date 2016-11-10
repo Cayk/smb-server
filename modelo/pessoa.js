@@ -1,7 +1,7 @@
 var mongoose = require('../conexao/mongo');
 
 var schema = mongoose.Schema;
-var bicicleta = schema.objectId;
+var bicicleta = schema.ObjectId;
 var PessoaSchema = schema({
   nome:{type:String, require:true},
   senha:{type:String, require:true},
