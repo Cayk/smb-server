@@ -2,9 +2,6 @@ var Localizacao = require('../modelo/localizacao');
 
 var express = require('express');
 var router = express.Router();
-var mqtt = require('mqtt');
-
-var cliente = mqtt.connect('mqtt://localhost')
 
 router.get("/", function(request, response){
 
@@ -25,11 +22,6 @@ router.get("/", function(request, response){
     );
 });
 
-router.get("/enviar", function(request, response){
-    cliente.publish("teste1", request.query.message);// Como o arduino irá publicar no servidor
-    response.json({message: request.query.message});
-});
-
 router.post("/", function(request, response){
   var loc = request.body.localizacao;
 
@@ -48,11 +40,4 @@ router.post("/", function(request, response){
     });
 });
 
-cliente.on('connect', function(){
-    cliente.subscribe('teste');
-});
-
-cliente.on('message', function (topic, message) {
-  console.log(message.toString());
-});
 module.exports = router;

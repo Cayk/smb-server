@@ -3,10 +3,9 @@ var mongoose = require('../conexao/mongo');
 var schema = mongoose.Schema;
 
 var LocalizacaoSchema = schema({
-    nome:{type:String, require:true},
-    latitude:{type:Number, require:true},
-    longitude:{type:Number, require:true},
-    altitude:{type:Number, require:false}
+  latitude:{type:Number, require:true},
+  longitude:{type:Number, require:true},
+  time:{type:Number, require:false}
 });
 
 LocalizacaoSchema.statics.buscar = function(retorno){
