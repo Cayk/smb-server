@@ -9,8 +9,8 @@ var PessoaSchema = schema({
   bicicleta_id: bicicleta;
 });
 
-LocalizacaoSchema.statics.buscar = function(retorno){
-  this.find({_id:hsua})
+PessoaSchema.statics.buscar = function(retorno){
+  this.find()
   .exec(retorno);
 };
 

@@ -5,7 +5,7 @@ var schema = mongoose.Schema;
 var BicicletaSchema = schema({
     identificador:{type:String, require:true},
     listaViagem:[{
-      _id:schema.objectId,
+      _id:schema.ObjectId,
       nome:{type:String, require:true},
       listaLoc:[{
         latitude:{type:Number, require:true},
