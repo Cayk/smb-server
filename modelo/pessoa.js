@@ -6,7 +6,7 @@ var PessoaSchema = schema({
   nome:{type:String, require:true},
   senha:{type:String, require:true},
   email:{type:String, require:true},
-  bicicleta_id: bicicleta;
+  bicicleta_id: bicicleta
 });
 
 PessoaSchema.statics.buscar = function(retorno){
