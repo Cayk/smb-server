@@ -4,8 +4,7 @@ var schema = mongoose.Schema;
 
 var BicicletaSchema = schema({
     identificador:{type:String, require:true},
-    listaViagem:[{
-      _id:schema.ObjectId,
+    listaViagens:[{
       nome:{type:String, require:true},
       listaLoc:[{
         latitude:{type:Number, require:true},
@@ -13,16 +12,15 @@ var BicicletaSchema = schema({
         time:{type:Number, require:false}
       }]
     }]
-});
+}, {versionKey: false});
 
-BicicletaSchema.statics.buscarViagens = function(idBicicleta, resposta){
-  this.find({identificador:idBicicleta})
-  .exec(retorno);
+BicicletaSchema.statics.buscarBikeIdentificador = function(identificador, resposta){
+  this.findOne({identificador:identificador})
+  .exec(resposta);
 };
 
-BicicletaSchema.statics.buscarViagem = function(idViagem, resposta){
-  this.find({_id:idViagem})
-  .exec(retorno);
+BicicletaSchema.statics.buscar = function(resposta){
+  this.find()
+  .exec(resposta);
 };
-
 module.exports = mongoose.model('Bicicleta', BicicletaSchema);
