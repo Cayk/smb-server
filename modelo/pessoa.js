@@ -7,7 +7,7 @@ var PessoaSchema = schema({
   senha:{type:String, require:true},
   email:{type:String, require:true},
   bicicleta:{type:String, require:false}
-});
+}, {versionKey: false});
 
 PessoaSchema.statics.buscar = function(retorno){
   this.find()

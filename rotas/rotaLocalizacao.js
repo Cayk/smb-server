@@ -22,9 +22,30 @@ router.get("/", function(request, response){
     );
 });
 
+router.post("/bike", function(request, response){
+
+  var identificador = request.body.identificador;
+  console.log(identificador);
+  if(!identificador)
+    return response.sendStatus(400);
+
+  Localizacao.buscarPorBicicleta(identificador, function(erro, dados){
+
+    if(erro){
+      console.log("Error dados");
+      response.json({
+        error: erro
+      });
+    }else {
+      console.log("Ok");
+      response.json(dados);
+    }
+  });
+});
+
 router.post("/", function(request, response){
   var loc = request.body.localizacao;
-
+  console.log(loc);
   if(!loc)
     return response.sendStatus(400);
 
@@ -32,11 +53,20 @@ router.post("/", function(request, response){
 
     localiza = new Localizacao(json);
 
-    localiza.save(function(err){
-      if(err)
-        return response.sendStatus(500);
+    Localizacao.buscarPorBicicleta(localiza.bicicleta, function(erro, dados){
+      if(erro){
+        response.json({error: erro});
+      }else{
+          dados.latitude = localiza.latitude;
+          dados.longitude = localiza.longitude;
 
-      response.json({ok:"ok"});
+          dados.save(function(err){
+            if(err)
+              return response.sendStatus(500);
+          });
+
+          response.json(dados);
+      }
     });
 });
 

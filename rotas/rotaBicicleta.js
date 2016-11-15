@@ -22,6 +22,27 @@ router.get("/", function(request, response){
     );
 });
 
+router.post("/viagens", function(request, response){
+
+  var identificador = request.body.identificador;
+  console.log(identificador);
+
+  if(!identificador)
+    return response.sendStatus(400);
+
+  Bicicleta.buscarBikeIdentificador(identificador, function(erro, dados){
+      if(erro){
+        console.log("Error dados");
+        response.json({
+          error: erro
+        });
+      }else {
+        console.log("Ok");
+        response.json(dados);
+      }
+  });
+});
+
 router.post("/cadastrar", function(request, response){
 
   var dadosBicicleta = request.body.bicicleta;
@@ -59,34 +80,37 @@ router.post("/app-cadastrar", function(request, response){
   var dadosBicicleta = request.body.bicicleta;
   var dadosPessoa = request.body.pessoa;
 
+  console.log(dadosPessoa);
+  console.log(dadosBicicleta);
   if(!dadosBicicleta || !dadosPessoa)
     return response.sendStatus(400);
 
-  var jsonBicicleta = JSON.parse(dadosBicicleta);
-  var jsonPessoa = JSON.parse(dadosPessoa);
+  //var jsonBicicleta = JSON.parse(dadosBicicleta);
+  //var jsonPessoa = JSON.parse(dadosPessoa);
 
-  bicicletaSalvar = new Bicicleta(jsonBicicleta);
-  pessoaEditar = new Pessoa(jsonPessoa);
+  bicicletaSalvar = new Bicicleta();
+  //pessoaEditar = new Pessoa(jsonPessoa);
 
-  Pessoa.findOne({_id:pessoaEditar._id}, function(err, pessoa){
+  Pessoa.findOne({_id:dadosPessoa}, function(err, pessoa){
     if(err)
       return response.sendStatus(500);
 
-    Bicicleta.buscarBikeIdentificador(bicicletaSalvar.identificador, function(erro, dados){
+    Bicicleta.buscarBikeIdentificador(dadosBicicleta, function(erro, dados){
       if(erro){
         response.json({
           error: erro
         });
       }else if(dados != null){
 
-        pessoa.bicicleta = bicicletaSalvar.identificador;
+        pessoa.bicicleta = dadosBicicleta;
         pessoa.save(function(err){
           if(err)
             return response.sendStatus(500);
 
-          response.json({ok:"ok"});
+          response.json(pessoa);
         });
       }else{
+        bicicletaSalvar.identificador = dadosBicicleta;
         bicicletaSalvar.save(function(err){
           if(err)
             return response.sendStatus(500);
@@ -96,7 +120,7 @@ router.post("/app-cadastrar", function(request, response){
               if(err)
                 return response.sendStatus(500);
 
-              response.json({ok:"ok"});
+              response.json({pessoa});
             });
         });
       }

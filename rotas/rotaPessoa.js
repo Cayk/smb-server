@@ -40,26 +40,61 @@ router.get("/buscar/:id", function(request, response){
 });
 
 router.post("/cadastrar", function(request, response){
-  var pessoa = request.body.pessoa;
+  var nome = request.body.nome;
+  var email = request.body.email;
+  var senha = request.body.senha;
 
-  if(!pessoa)
+  if(!nome || !email || !senha)
     return response.sendStatus(400);
 
-  var json = JSON.parse(pessoa);
+  pessoaSalvar = new Pessoa();
+  pessoaSalvar.nome = nome;
+  pessoaSalvar.senha = senha;
+  pessoaSalvar.email = email;
 
-  pessoaSalvar = new Pessoa(json);
+  Pessoa.findOne({email: email}, function(erro, dados){
+      if(erro){
+        response.json({
+          error: erro
+        });
+      }else if(dados != null){
+        response.json({erro:"Email já cadastrada"});
+      }else{
+        pessoaSalvar.save(function(err){
+          if(err)
+            return response.sendStatus(500);
 
-  pessoaSalvar.save(function(err){
-    if(err)
-      return response.sendStatus(500);
-
-    response.json({ok:"ok"});
+          response.json({ok:"ok"});
+        });
+      }
   });
 });
 
+router.post("/login", function(request, response){
+  var email = request.body.email;
+  var senha = request.body.senha;
+
+  if(!email || !senha)
+    return response.sendStatus(400);
+
+  pessoaSalvar = new Pessoa();
+  pessoaSalvar.senha = senha;
+  pessoaSalvar.email = email;
+
+  Pessoa.findOne({email: email, senha:senha}, function(erro, dados){
+      if(erro){
+        response.json({
+          error: erro
+        });
+      }else{
+          response.json(dados);
+        }
+      });
+  });
+
 router.put("/editar", function(request, response){
   var dados = request.body.pessoa;
-
+  console.log(dados);
   if(!dados)
     return response.sendStatus(400);
 
@@ -74,6 +109,7 @@ router.put("/editar", function(request, response){
     pessoa.nome = pessoaEditar.nome;
     pessoa.email = pessoaEditar.email;
     pessoa.senha = pessoaEditar.senha;
+    pessoa.bicicleta = pessoaEditar.bicicleta;
 
     pessoa.save(function(err){
       if(err)
