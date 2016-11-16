@@ -73,7 +73,7 @@ router.post("/cadastrar", function(request, response){
 router.post("/login", function(request, response){
   var email = request.body.email;
   var senha = request.body.senha;
-
+  console.log(email);
   if(!email || !senha)
     return response.sendStatus(400);
 

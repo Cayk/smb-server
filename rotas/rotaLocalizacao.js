@@ -1,4 +1,5 @@
 var Localizacao = require('../modelo/localizacao');
+var Bicicleta = require('../modelo/bicicleta');
 
 var express = require('express');
 var router = express.Router();
@@ -52,20 +53,32 @@ router.post("/", function(request, response){
     var json = JSON.parse(loc);
 
     localiza = new Localizacao(json);
-
-    Localizacao.buscarPorBicicleta(localiza.bicicleta, function(erro, dados){
+    Bicicleta.buscarBikeIdentificador(localiza.bicicleta, function(erro, bicicleta){
       if(erro){
         response.json({error: erro});
-      }else{
-          dados.latitude = localiza.latitude;
-          dados.longitude = localiza.longitude;
+      }
+      if(bicicleta != null){
+        Localizacao.buscarPorBicicleta(localiza.bicicleta, function(erro, dados){
+          if(erro){
+            response.json({error: erro});
+          }
+          if(dados == null){
+            localiza.save(function(err){
+              if(err)
+                return response.sendStatus(500);
+            })
+          }
+          else{
+              dados.latitude = localiza.latitude;
+              dados.longitude = localiza.longitude;
 
-          dados.save(function(err){
-            if(err)
-              return response.sendStatus(500);
-          });
-
+              dados.save(function(err){
+                if(err)
+                  return response.sendStatus(500);
+              });
+          }
           response.json(dados);
+        });
       }
     });
 });
