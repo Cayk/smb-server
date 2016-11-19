@@ -133,9 +133,11 @@ router.post("/cadastrar-viagem", function(request, response){
   var identificador = request.body.identificador;
   var dadosViagem = request.body.viagem;
 
+  console.log("Bike:"+identificador);
+  console.log("Bike:"+dadosViagem);
   var jsonViagem = JSON.parse(dadosViagem);
-  console.log(identificador);
-  console.log(dadosViagem);
+  console.log(jsonViagem);
+
   Bicicleta.update({identificador:identificador}, {$push : {listaViagens: jsonViagem }}, function(err){
     if(err)
       return response.sendStatus(500);

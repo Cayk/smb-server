@@ -109,7 +109,6 @@ router.put("/editar", function(request, response){
     pessoa.nome = pessoaEditar.nome;
     pessoa.email = pessoaEditar.email;
     pessoa.senha = pessoaEditar.senha;
-    pessoa.bicicleta = pessoaEditar.bicicleta;
 
     pessoa.save(function(err){
       if(err)
