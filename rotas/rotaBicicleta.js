@@ -120,7 +120,7 @@ router.post("/app-cadastrar", function(request, response){
               if(err)
                 return response.sendStatus(500);
 
-              response.json({pessoa});
+              response.json(pessoa);
             });
         });
       }
