@@ -4,23 +4,19 @@ var Bicicleta = require('../modelo/bicicleta');
 var express = require('express');
 var router = express.Router();
 
-router.get("/", function(request, response){
+router.get('/:valor', function(req, res) {
+  var string = req.params.valor;
 
-    Localizacao.buscar(
-      function(erro, dados){
+  var resultado = string.split(":");
+  var identificador = resultado[0];
+  var lat = resultado[1];
+  var lon = resultado[2];
 
-        if(erro){
-          console.log("Error dados");
-          response.json({
-            error: erro
-          });
-        }else {
-          console.log("Ok");
-          response.json(dados);
-        }
+  console.log(identificador);
+  console.log(lat);
+  console.log(lon);
 
-      }
-    );
+  res.json({ mensagem: 'Ok' });
 });
 
 router.post("/bike", function(request, response){
@@ -44,7 +40,7 @@ router.post("/bike", function(request, response){
   });
 });
 
-router.post("/", function(request, response){
+/*router.post("/", function(request, response){
   var loc = request.body.localizacao;
   console.log(loc);
   if(!loc)
@@ -81,6 +77,6 @@ router.post("/", function(request, response){
         });
       }
     });
-});
+});*/
 
 module.exports = router;
