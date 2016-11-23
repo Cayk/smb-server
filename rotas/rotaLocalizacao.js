@@ -16,7 +16,41 @@ router.get('/:valor', function(req, res) {
   console.log(lat);
   console.log(lon);
 
-  res.json({ mensagem: 'Ok' });
+  loc = new Localizacao();
+  loc.latitude = lat;
+  loc.longitude = lon;
+  loc.bicicleta = identificador;
+
+  console.log(loc);
+
+  Bicicleta.buscarBikeIdentificador(identificador, function(erro, bicicleta){
+    if(erro){
+      response.json({error: erro});
+    }
+    if(bicicleta != null){
+      Localizacao.buscarPorBicicleta(identificador, function(erro, dados){
+        if(erro){
+          response.json({error: erro});
+        }
+        if(dados == null){
+          loc.save(function(err){
+            if(err)
+              return response.sendStatus(500);
+          })
+        }
+        else{
+            dados.latitude = localiza.latitude;
+            dados.longitude = localiza.longitude;
+
+            dados.save(function(err){
+              if(err)
+                return response.sendStatus(500);
+            });
+        }
+        response.json(dados);
+      });
+    }
+  });
 });
 
 router.post("/bike", function(request, response){
