@@ -39,8 +39,8 @@ router.get('/:valor', function(request, response) {
           })
         }
         else{
-            dados.latitude = localiza.latitude;
-            dados.longitude = localiza.longitude;
+            dados.latitude = loc.latitude;
+            dados.longitude = loc.longitude;
 
             dados.save(function(err){
               if(err)
