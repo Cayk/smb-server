@@ -4,8 +4,8 @@ var Bicicleta = require('../modelo/bicicleta');
 var express = require('express');
 var router = express.Router();
 
-router.get('/:valor', function(req, res) {
-  var string = req.params.valor;
+router.get('/:valor', function(request, response) {
+  var string = request.params.valor;
 
   var resultado = string.split(":");
   var identificador = resultado[0];
