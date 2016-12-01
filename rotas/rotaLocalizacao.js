@@ -89,7 +89,7 @@ router.get('/:valor', function(request, response) {
                 return response.sendStatus(500);
             });
         }
-        response.json(ok:"ok");
+        response.json({ok:"ok"});
       });
     }
   });
